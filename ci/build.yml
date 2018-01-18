@@ -18,6 +18,7 @@ run:
   args:
   - -exc
   - |
+    export TERM=${TERM:-dumb}
     cd pal-tracker
     chmod +x gradlew
     ./gradlew -P version=$(cat ../version/number) build
