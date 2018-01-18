@@ -89,7 +89,7 @@ jobs:
     passed: [deploy-review]
   - get: pal-tracker-artifacts
     passed: [deploy-review]
-    - task: migrate database
+  - task: migrate database
     file: pal-tracker/ci/migrateDatabase.yml
     params:
       CF_API_URL: {{cf-api-url}}
