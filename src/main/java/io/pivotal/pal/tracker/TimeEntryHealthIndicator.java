@@ -7,21 +7,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeEntryHealthIndicator implements HealthIndicator {
 
-    public static final int MAX_TIME_ENTRIES = 5;
-    private JdbcTimeEntryRepository repository;
+    private static final int MAX_TIME_ENTRIES = 5;
+    private final TimeEntryRepository timeEntryRepo;
 
-    public TimeEntryHealthIndicator(JdbcTimeEntryRepository repository) {
-        this.repository = repository;
+    public TimeEntryHealthIndicator(TimeEntryRepository timeEntryRepo) {
+        this.timeEntryRepo = timeEntryRepo;
     }
 
     @Override
     public Health health() {
-        int numberOfTimeEntries = repository.list().size();
+        Health.Builder builder = new Health.Builder();
 
-        if (numberOfTimeEntries < MAX_TIME_ENTRIES) {
-            return Health.up().build();
+        if(timeEntryRepo.list().size() < MAX_TIME_ENTRIES) {
+            builder.up();
         } else {
-            return Health.down().build();
+            builder.down();
         }
+
+        return builder.build();
     }
 }
